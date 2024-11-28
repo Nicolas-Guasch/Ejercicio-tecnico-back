@@ -6,33 +6,38 @@ class ClientsList
         new Client(2, "Samantha", "Mulder", "Vine Street 2790"),
         ];
 
-    public Client[] GetClients()
+    public ClientData[] GetClients()
     {
-        return this._clients.ToArray();
+        ClientData[] clients = new ClientData[this._clients.Count];
+        for (int i = 0; i < this._clients.Count; i++)
+        {
+            clients[i] = _clients[i].getData();
+        }
+        return clients;
     }
 
-    public void AddClient(ClientData newClient)
+    public void AddClient(ClientEntry newClient)
     {
-        this._clients.Add(new Client(newClient.firstName, newClient.lastName, newClient.address));
+        this._clients.Add(new Client(newClient));
     }
 
-    public Client? GetClient(int id)
+    public ClientData? GetClient(int id)
     {
-        return this._clients.Find((client) => client.getId() == id);
+        return this._clients.Find((client) => client.getId() == id)?.getData();
     }
     public void DeleteClient(int id)
     {
         this._clients.RemoveAll((client) => client.getId() == id);
     }
 
-    public void EditClient(int id, string firstName, string lastName, string address)
+    public void EditClient(int id, string? firstName, string? lastName, string? address)
     {
         Client? client = this._clients.Find((client) => client.getId() == id);
         if (client != null)
         {
-            client.firstName = firstName;
-            client.lastName = lastName;
-            client.address = address;
+            if (firstName != null) client.firstName = firstName;
+            if (lastName != null) client.lastName = lastName;
+            if (address != null) client.address = address;
         }
     }
 

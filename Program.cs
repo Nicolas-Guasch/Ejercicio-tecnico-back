@@ -29,9 +29,9 @@ ClientsList data = new ClientsList();
 
 app.MapGet("/clientes", () => data.GetClients());
 app.MapGet("/clientes/{id}", (int id) => data.GetClient(id));
-app.MapPost("/clientes", (ClientData client) => data.AddClient(client));
-app.MapPut("/clientes", (Client client) => data.EditClient(client.getId(), client.firstName, client.lastName, client.address));
-app.MapDelete("/clientes", (int id) => data.DeleteClient(id));
+app.MapPost("/clientes", (ClientEntry client) => data.AddClient(client));
+app.MapPut("/clientes", (ClientData client) => data.EditClient(client.Id, client.FirstName, client.LastName, client.Address));
+app.MapDelete("/clientes/{id}", (int id) => data.DeleteClient(id));
 
 
 app.Run();
