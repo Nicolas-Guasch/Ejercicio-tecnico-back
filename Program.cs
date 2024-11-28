@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,14 @@ app.MapPost("/clientes", (ClientEntry client) => data.AddClient(client));
 app.MapPut("/clientes", (ClientData client) => data.EditClient(client.Id, client.FirstName, client.LastName, client.Address));
 app.MapDelete("/clientes/{id}", (int id) => data.DeleteClient(id));
 
+app.Use(async (context, next) =>
+{
+    var stopwatch = new Stopwatch();
+    stopwatch.Start();
+    await next.Invoke();
+    stopwatch.Stop();
+    Console.WriteLine($"Request processed in {stopwatch.ElapsedMilliseconds} milliseconds.");
+});
 
 app.Run();
 
