@@ -1,6 +1,18 @@
 @Ejercicio_tecnico_back_HostAddress = http://localhost:5011
 
-GET {{Ejercicio_tecnico_back_HostAddress}}/weatherforecast/
+GET {{Ejercicio_tecnico_back_HostAddress}}/clientes/
+Accept: application/json
+
+POST {{Ejercicio_tecnico_back_HostAddress}}/clientes
+Accept: application/json
+
+PUT {{Ejercicio_tecnico_back_HostAddress}}/clientes
+Accept: application/json
+
+GET {{Ejercicio_tecnico_back_HostAddress}}/clientes/{id}
+Accept: application/json
+
+DELETE {{Ejercicio_tecnico_back_HostAddress}}/clientes/{id}
 Accept: application/json
 
 ###
