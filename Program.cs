@@ -42,21 +42,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-ClientsList data = new ClientsList();
-
-app.MapGet("/clientes", Ok<ClientData[]> () => TypedResults.Ok(data.GetClients()));
+app.MapGet("/clientes", Ok<ClientData[]> (ClientsList data) => TypedResults.Ok(data.GetClients()));
 app.MapGet(
     "/clientes/{id}",
-    Results<Ok<ClientData>, NotFound> (int id) =>
+    Results<Ok<ClientData>, NotFound> (int id, ClientsList data) =>
         data.GetClient(id) is ClientData client ? TypedResults.Ok(client) : TypedResults.NotFound()
 );
 app.MapPost(
     "/clientes",
-    Ok<ClientData> (ClientEntry client) => TypedResults.Ok(data.AddClient(client))
+    Ok<ClientData> (ClientEntry client, ClientsList data) => TypedResults.Ok(data.AddClient(client))
 );
 app.MapPut(
     "/clientes",
-    Results<Ok<ClientData>, NotFound> (ClientData client) =>
+    Results<Ok<ClientData>, NotFound> (ClientData client, ClientsList data) =>
         data.EditClient(client.Id, client.FirstName, client.LastName, client.Address)
             is ClientData updatedClient
             ? TypedResults.Ok(updatedClient)
@@ -64,7 +62,7 @@ app.MapPut(
 );
 app.MapDelete(
     "/clientes/{id}",
-    Results<Ok, NotFound> (int id) =>
+    Results<Ok, NotFound> (int id, ClientsList data) =>
         data.DeleteClient(id) ? TypedResults.Ok() : TypedResults.NotFound()
 );
 
