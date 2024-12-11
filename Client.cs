@@ -1,7 +1,9 @@
 public class Client
 {
     private int id;
-    public string? firstName, lastName, address;
+    public string? firstName,
+        lastName,
+        address;
 
     public Client(int id, string firstName, string lastName, string address)
     {
@@ -26,7 +28,13 @@ public class Client
 
     public ClientData getData()
     {
-        return new ClientData { Id = this.id, FirstName = this.firstName, LastName = this.lastName, Address = this.address };
+        return new ClientData
+        {
+            Id = this.id,
+            FirstName = this.firstName,
+            LastName = this.lastName,
+            Address = this.address,
+        };
     }
 }
 
@@ -45,5 +53,4 @@ public record ClientEntry
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Address { get; set; }
-
 }

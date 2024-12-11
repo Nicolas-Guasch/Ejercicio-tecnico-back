@@ -1,6 +1,7 @@
 class ClientsList
 {
-    private List<Client> _clients = [
+    private List<Client> _clients =
+    [
         new Client(0, "Fox", "Mulder", "2790 Vine Street"),
         new Client(1, "Dana", "Scully", "863rd Street 911"),
         new Client(2, "Samantha", "Mulder", "2790 Vine Street"),
@@ -10,13 +11,13 @@ class ClientsList
         new Client(6, "Harry", "Longstreet", "7505 Golf Lane"),
         new Client(7, "Glen", "Morgan", "7981 6th Rd."),
         new Client(8, "James", "Wong", "89 Gates Street"),
-        new Client(9, "Alex", "Gansa",  "813 Marvon Dr."),
+        new Client(9, "Alex", "Gansa", "813 Marvon Dr."),
         new Client(10, "Howard", "Gordon", "18 Buckingham Drive"),
         new Client(11, "Joe", "Napolitano", "880 W. Parker Street"),
-        new Client(12, "Michael", "Katleman",  "9421 NE. Leatherwood St."),
-        new Client(13, "秀夫", "小島",  "68 Gainsway Street"),
-        new Client(14, "明", "森",  "8345 East Philmont Street"),
-        ];
+        new Client(12, "Michael", "Katleman", "9421 NE. Leatherwood St."),
+        new Client(13, "秀夫", "小島", "68 Gainsway Street"),
+        new Client(14, "明", "森", "8345 East Philmont Street"),
+    ];
 
     public ClientData[] GetClients()
     {
@@ -39,9 +40,11 @@ class ClientsList
     {
         return this._clients.Find((client) => client.getId() == id)?.getData();
     }
-    public void DeleteClient(int id)
+
+    public bool DeleteClient(int id)
     {
-        this._clients.RemoveAll((client) => client.getId() == id);
+        int removals = this._clients.RemoveAll((client) => client.getId() == id);
+        return removals > 0;
     }
 
     public ClientData? EditClient(int id, string? firstName, string? lastName, string? address)
@@ -49,12 +52,13 @@ class ClientsList
         Client? client = this._clients.Find((client) => client.getId() == id);
         if (client != null)
         {
-            if (firstName != null) client.firstName = firstName;
-            if (lastName != null) client.lastName = lastName;
-            if (address != null) client.address = address;
+            if (firstName != null)
+                client.firstName = firstName;
+            if (lastName != null)
+                client.lastName = lastName;
+            if (address != null)
+                client.address = address;
         }
         return client?.getData();
-
     }
-
 }
