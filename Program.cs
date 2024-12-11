@@ -21,11 +21,6 @@ builder.Services.AddSwaggerGen(c =>
     );
 });
 
-builder.Services.ConfigureHttpJsonOptions(options =>
-{
-    options.SerializerOptions.IncludeFields = true;
-});
-
 builder.Services.AddSingleton<ClientsList>();
 
 var app = builder.Build();
@@ -42,21 +37,24 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/clientes", Ok<ClientData[]> (ClientsList data) => TypedResults.Ok(data.GetClients()));
+app.MapGet("/clientes", Ok<Client[]> (ClientsList data) => TypedResults.Ok(data.GetClients()));
 app.MapGet(
     "/clientes/{id}",
-    Results<Ok<ClientData>, NotFound> (int id, ClientsList data) =>
-        data.GetClient(id) is ClientData client ? TypedResults.Ok(client) : TypedResults.NotFound()
+    Results<Ok<Client>, NotFound> (int id, ClientsList data) =>
+        data.GetClient(id) is Client client ? TypedResults.Ok(client) : TypedResults.NotFound()
 );
+
+//Post recibe ClientEntry con los datos del nuevo cliente excepto el id. El id se genera en el back para garantizar unicidad.
+//Alternativamente, se podría recibir un ID, y responder con error si ya existe en la lista.
 app.MapPost(
     "/clientes",
-    Ok<ClientData> (ClientEntry client, ClientsList data) => TypedResults.Ok(data.AddClient(client))
+    Ok<Client> (ClientEntry client, ClientsList data) => TypedResults.Ok(data.AddClient(client))
 );
 app.MapPut(
     "/clientes",
-    Results<Ok<ClientData>, NotFound> (ClientData client, ClientsList data) =>
+    Results<Ok<Client>, NotFound> (Client client, ClientsList data) =>
         data.EditClient(client.Id, client.FirstName, client.LastName, client.Address)
-            is ClientData updatedClient
+            is Client updatedClient
             ? TypedResults.Ok(updatedClient)
             : TypedResults.NotFound()
 );

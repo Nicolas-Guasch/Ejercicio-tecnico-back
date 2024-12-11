@@ -1,53 +1,32 @@
+/*
+ Client con propiedades públicas en vez de campos es serializable por el JsonSerializer
+ La clase adaptadora ClientData es redundante con estos cambios
+*/
 public class Client
-{
-    private int id;
-    public string? firstName,
-        lastName,
-        address;
-
-    public Client(int id, string firstName, string lastName, string address)
-    {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-    }
-
-    public Client(ClientEntry data)
-    {
-        this.firstName = data.FirstName;
-        this.lastName = data.LastName;
-        this.address = data.Address;
-        this.id = (int)(DateTime.Now.Ticks % (1L << 31));
-    }
-
-    public int getId()
-    {
-        return this.id;
-    }
-
-    public ClientData getData()
-    {
-        return new ClientData
-        {
-            Id = this.id,
-            FirstName = this.firstName,
-            LastName = this.lastName,
-            Address = this.address,
-        };
-    }
-}
-
-//JSON serializable client requires no fields and default constructor.
-public record ClientData
 {
     public int Id { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Address { get; set; }
+
+    public Client()
+    {
+        this.Id = 0;
+        this.FirstName = null;
+        this.LastName = null;
+        this.Address = null;
+    }
+
+    public Client(ClientEntry data)
+    {
+        this.FirstName = data.FirstName;
+        this.LastName = data.LastName;
+        this.Address = data.Address;
+        this.Id = (int)(DateTime.Now.Ticks % (1L << 31));
+    }
 }
 
-//New client with no Id
+//New client with no Id given yet
 public record ClientEntry
 {
     public string? FirstName { get; set; }
